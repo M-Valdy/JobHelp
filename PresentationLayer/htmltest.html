@@ -5,10 +5,12 @@
 </head>
 <body> 
     <div class="form-container">
-        <form>
+        
             <label for="input">Enter jobs that you're interested in!</label>
-            <input type="text" id="input" input="input" placeholder="Computer Science Internship" required>
-        </form>
+            <input type="text" id="input" placeholder="Computer Science Internship">
+            
+            <br><br>
+        
 
         <label for="location">Location:</label>
         <select id="location" name="location">
@@ -26,13 +28,17 @@
             <option value="Saskatchewan">Saskatchewan</option>
             <option value="Yukon">Yukon</option>
         </select>
+
+        <br><br>
+        
+        <button onclick="findJobs()">Find Jobs</button>
+
     </div>
 
-    <div>
-        <input type="submit">
-    </div>
-    <div>
-        <input type="reset">
-    </div>
+    <h3>Results:</h3>
+    <div id="results"></div>
+    
+    <script src="javascripttest.js"></script>
+    
 </body>
 </html>
