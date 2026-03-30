@@ -4,41 +4,55 @@
     <title>JobHelp</title>
 </head>
 <body> 
+    <h1>JobHelp</h1>
+
     <div class="form-container">
-        
+        <form id="jobForm">
             <label for="input">Enter jobs that you're interested in!</label>
-            <input type="text" id="input" placeholder="Computer Science Internship">
+            <input type="text" id="input" name="input" placeholder="Computer Science Internship">
             
             <br><br>
-        
 
-        <label for="location">Location:</label>
-        <select id="location" name="location">
-            <option value="Alberta">Alberta</option>
-            <option value="British Columbia">British Columbia</option>
-            <option value="Manitoba">Manitoba</option>
-            <option value="New Brunswick">New Brunswick</option>
-            <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-            <option value="Northwest Territories">Northwest Territories</option>
-            <option value="Nova Scotia">Nova Scotia</option>
-            <option value="Nunavut">Nunavut</option>
-            <option value="Ontario">Ontario</option>
-            <option value="Prince Edward Island">Prince Edward Island</option>
-            <option value="Quebec">Quebec</option>
-            <option value="Saskatchewan">Saskatchewan</option>
-            <option value="Yukon">Yukon</option>
-        </select>
+            <label for="location">Location:</label>
+            <select id="location" name="location">
+                <option value="Alberta">Alberta</option>
+                <option value="British Columbia">British Columbia</option>
+                <option value="Manitoba">Manitoba</option>
+                <option value="New Brunswick">New Brunswick</option>
+                <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+                <option value="Northwest Territories">Northwest Territories</option>
+                <option value="Nova Scotia">Nova Scotia</option>
+                <option value="Nunavut">Nunavut</option>
+                <option value="Ontario">Ontario</option>
+                <option value="Prince Edward Island">Prince Edward Island</option>
+                <option value="Quebec">Quebec</option>
+                <option value="Saskatchewan">Saskatchewan</option>
+                <option value="Yukon">Yukon</option>
+            </select>
 
-        <br><br>
-        
-        <button onclick="findJobs()">Find Jobs</button>
+            <br><br>
 
+            <button type="submit">Find Jobs</button>
+        </form>
     </div>
 
     <h3>Results:</h3>
     <div id="results"></div>
-    
+
+    <script>
+        const form = document.getElementById("jobForm");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault(); // stop page from refreshing
+
+            const keywordInput = document.getElementById("input").value;
+            const locationInput = document.getElementById("location").value;
+
+            console.log("User entered:", keywordInput);
+            console.log("Selected location:", locationInput);
+        });
+    </script>
+
     <script src="javascripttest.js"></script>
-    
 </body>
 </html>
