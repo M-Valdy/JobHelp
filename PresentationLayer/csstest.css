@@ -6,6 +6,8 @@
 body {
     background: linear-gradient(135deg,rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
     background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 20px;
 }
@@ -16,9 +18,22 @@ h1 {
     text-align: center;
 }
 
+hr {
+    margin: 20px auto;
+    width: 80%;
+    border: 0;
+    border-top: 1px solid #656363;
+}
+
 .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    column-gap: 10px;
+    row-gap: 10px;
     background: #fff;
-    padding: 20px;
+    padding: 50px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
@@ -26,32 +41,82 @@ h1 {
     margin: 20px auto;
 }
 
-label {
+.form-container h2 {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+}
+
+.form-container h3 {
+    margin-top: 5px;
+    color: #333;
+    font-style: italic;
+    text-align: center;
+    font-weight: normal;
+}
+
+.form-container label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 1px;
     font-size: 18px;
     color: #333;
 }
 
-input[type="text"] {
+.form-container label[for="location"] {
+    margin-top: 20px;
+}
+
+.form-container input[type="text"] {
     width: 100%;
     padding: 5px;
     margin: 1px 0;
     border: 1px solid #173454;
 }
 
-input[type="text"]:focus, input[type="text"]:active {
+.form-container input[type="text"]:focus, .form-container input[type="text"]:active {
     border-color: #007BFF;
     outline: none;
 }
 
-input[type="text"]:hover {
+.form-container input[type="text"]:hover {
     box-shadow: gold 0px 0px 10px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.checkbox-group label {
+    display: inline;
+    margin-bottom: 0;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.checkbox-group input[type="checkbox"]:hover {
+    box-shadow: gold 0px 0px 10px;
+}
+
+.checkbox-group input[type="checkbox"]:focus, .checkbox-group input[type="checkbox"]:active {
+    outline: 2px solid #007BFF;
+}
+
+.form-container input[type="checkbox"] {
+    display: inline;
+    width: auto;
+    margin: 0;
+    margin-right: 10px;
 }
 
 #results[role="tab"] {
     background: #fff;
-    padding: 20px;
+    padding: 50px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
@@ -60,7 +125,11 @@ input[type="text"]:hover {
 }
 
 #results[role="tab"][aria-selected="true"] {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
 }
 
 input[type="text"]::placeholder{
@@ -89,6 +158,7 @@ select option {
 }
 
 input[type="submit"], button {
+    margin-top: 30px;
     width: 100%;
     background-color: #3a82a1;
     color: white;

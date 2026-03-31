@@ -10,34 +10,45 @@
 
       <div class="form-container">
 
-      <label for="input">Enter jobs that you're interested in!</label>
-      <input type="text" id="input" placeholder="Software Developer, Web Intern" required>
+        <label for="input">Enter jobs that you're interested in!</label>
+        <input type="text" id="input" placeholder="Software Developer, Web Intern" required>
 
-      <br><br>
+        <label for="location">Location:</label>
+        <select id="location">
+          <option value="Any Location">Any location</option>
+          <option value="Alberta">Alberta</option>
+          <option value="British Columbia">British Columbia</option>
+          <option value="Manitoba">Manitoba</option>
+          <option value="New Brunswick">New Brunswick</option>
+          <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+          <option value="Northwest Territories">Northwest Territories</option>
+          <option value="Nova Scotia">Nova Scotia</option>
+          <option value="Nunavut">Nunavut</option>
+          <option value="Ontario">Ontario</option>
+          <option value="Prince Edward Island">Prince Edward Island</option>
+          <option value="Quebec">Quebec</option>
+          <option value="Saskatchewan">Saskatchewan</option>
+          <option value="Yukon">Yukon</option>
+        </select>
 
-      <label for="location">Location:</label>
-      <select id="location">
-        <option value="Any Location">Any location</option>
-        <option value="Alberta">Alberta</option>
-        <option value="British Columbia">British Columbia</option>
-        <option value="Manitoba">Manitoba</option>
-        <option value="New Brunswick">New Brunswick</option>
-        <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-        <option value="Northwest Territories">Northwest Territories</option>
-        <option value="Nova Scotia">Nova Scotia</option>
-        <option value="Nunavut">Nunavut</option>
-        <option value="Ontario">Ontario</option>
-        <option value="Prince Edward Island">Prince Edward Island</option>
-        <option value="Quebec">Quebec</option>
-        <option value="Saskatchewan">Saskatchewan</option>
-        <option value="Yukon">Yukon</option>
-      </select>
+        <hr>
 
-      <br><br>
+        <h2>Optional Filters:</h2>
+        <h3>Filter by match level (0-3):</h3>
+        <div class="checkbox-group">
+          <label for="match0" name="match0">0</label>
+          <input type="checkbox" id="match0" name="match0" value="0">
+          <label for="match1" name="match1">1</label>
+          <input type="checkbox" id="match1" name="match1" value="1">
+          <label for="match2" name="match2">2</label>
+          <input type="checkbox" id="match2" name="match2" value="2">
+          <label for="match3" name="match3">3</label>
+          <input type="checkbox" id="match3" name="match3" value="3">
+        </div>
 
-      <button onclick="findJobs()">Find Jobs</button>
+        <button onclick="findJobs()">Find Jobs</button>
 
-    </div>
+      </div>
 
     <h3>Results:</h3>
     <div id="results" role="tab" aria-selected="false" hidden>
