@@ -8,38 +8,39 @@
     <h1>JobHelp</h1>
 
     <div class="form-container">
-        <form id="jobForm">
-            <label for="input">Enter jobs that you're interested in!</label>
-            <input type="text" id="input" name="input" placeholder="ex. Computer Science Internship" required>
-            
-            <br><br>
 
-            <label for="location">Location:</label>
-            <select id="location" name="location">
-                <option value="Alberta">Alberta</option>
-                <option value="British Columbia">British Columbia</option>
-                <option value="Manitoba">Manitoba</option>
-                <option value="New Brunswick">New Brunswick</option>
-                <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-                <option value="Northwest Territories">Northwest Territories</option>
-                <option value="Nova Scotia">Nova Scotia</option>
-                <option value="Nunavut">Nunavut</option>
-                <option value="Ontario">Ontario</option>
-                <option value="Prince Edward Island">Prince Edward Island</option>
-                <option value="Quebec">Quebec</option>
-                <option value="Saskatchewan">Saskatchewan</option>
-                <option value="Yukon">Yukon</option>
-            </select>
+    <label for="input">Enter jobs that you're interested in!</label>
+    <input type="text" id="input" placeholder="Software Developer, Web Intern">
 
-            <br><br>
+    <br><br>
 
-            <button type="submit">Find Jobs</button>
-        </form>
-    </div>
+    <label for="location">Location:</label>
+    <select id="location">
+      <option value="Alberta">Alberta</option>
+      <option value="British Columbia">British Columbia</option>
+      <option value="Manitoba">Manitoba</option>
+      <option value="New Brunswick">New Brunswick</option>
+      <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+      <option value="Northwest Territories">Northwest Territories</option>
+      <option value="Nova Scotia">Nova Scotia</option>
+      <option value="Nunavut">Nunavut</option>
+      <option value="Ontario">Ontario</option>
+      <option value="Prince Edward Island">Prince Edward Island</option>
+      <option value="Quebec">Quebec</option>
+      <option value="Saskatchewan">Saskatchewan</option>
+      <option value="Yukon">Yukon</option>
+    </select>
 
-    <h3>Results:</h3>
-    <div id="results"></div>
+    <br><br>
 
-    <script src="javascripttest.js"></script>
+    <button onclick="findJobs()">Find Jobs</button>
+
+  </div>
+
+  <h3>Results:</h3>
+  <div id="results"></div>
+
+  <script src="javascripttest.js"></script>
+
 </body>
 </html>
