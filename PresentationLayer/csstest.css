@@ -49,6 +49,20 @@ input[type="text"]:hover {
     box-shadow: gold 0px 0px 10px;
 }
 
+#results[role="tab"] {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    min-height: 100px;
+    margin: 20px auto;
+}
+
+#results[role="tab"][aria-selected="true"] {
+    display: block;
+}
+
 input[type="text"]::placeholder{
     color: #999;
 }
@@ -100,3 +114,38 @@ h3 {
 }
 
 
+#results[role="tab"] {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    min-height: 100px;
+    margin: 20px auto;
+}
+
+#results[role="tab"][aria-selected="true"] {
+    display: block;
+    margin: 10px auto;
+}
+
+#results h4 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-decoration: bold;
+    font-size: 18px;
+    color: #333;
+}
+
+#results p {
+    margin-left: 10px;
+    text-align: center;
+    padding: 3px 0;
+    border-bottom: 1px solid #eee;
+}
+
+#results p:last-child, #results p:only-child,
+#results p:empty, #results p:first-child {
+    border-bottom: none;
+}
