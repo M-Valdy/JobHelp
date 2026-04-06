@@ -4,20 +4,13 @@ import os #library to access environment variables (because apparently uploading
 import requests #library that sends HTTP requests to the API and gets the response back
 # https://www.youtube.com/watch?v=jQjjqEjZK58
 
-
 load_dotenv() 
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-app = Flask(
-    __name__,
-    template_folder=os.path.join(BASE_DIR, "..", "PresentationLayer", "templates"),
-    static_folder=os.path.join(BASE_DIR, "..", "PresentationLayer", "static")
-)
-
+app = Flask(__name__) 
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY") 
 RAPIDAPI_HOST = "fresh-linkedin-scraper-api.p.rapidapi.com" 
 SEARCH_URL = f"https://{RAPIDAPI_HOST}/api/v1/job/search"
 JOB_DETAIL_URL = f"https://{RAPIDAPI_HOST}/api/v1/job/detail"
+
 
 
 def search_jobs(keyword):
@@ -38,10 +31,14 @@ def search_jobs(keyword):
         response.raise_for_status()
 
 
+
+
 @app.route("/") 
 @app.route("/home") 
 def home(): 
     return render_template("index.html")
+
+
 
 
 def get_job_details(job_id):
@@ -57,36 +54,8 @@ def get_job_details(job_id):
         response.raise_for_status()
 
 
-@app.route("/api/jobs", methods=["GET"])
-def get_jobs():
-    keyword = request.args.get("keyword", "").strip()
 
-    if not keyword:
-        return jsonify({"error": "Keyword is required"}), 400
-
-    try:
-        results = search_jobs(keyword)
-        return jsonify(results)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route("/api/job-details", methods=["GET"])
-def job_details():
-    job_id = request.args.get("job_id", "").strip()
-
-    if not job_id:
-        return jsonify({"error": "job_id is required"}), 400
-
-    try:
-        results = get_job_details(job_id)
-        return jsonify(results)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-# PAOLO'S NOTE: IF YOU WANT TO TEST THE API, RUN THIS FILE AND THEN GO TO http://localhost:5000/
