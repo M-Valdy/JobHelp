@@ -1,44 +1,3 @@
-function findJobs() {
-    const skill = document.getElementById("input").value.toLowerCase();
-    if (!skill.trim()) {
-        alert("Please enter a job you're interested in.");
-        return;
-    }
-    const location = document.getElementById("location").value;
-    
-    const jobs = [
-    {
-    title: "Software Developer",
-    company: "Google",
-    location: "Alberta",
-    match: 3
-    },
-    {
-    title: "Web Developer Intern",
-    company: "Startup Inc",
-    location: "Ontario",
-    match: 2
-    },
-    {
-    title: "IT Support",
-    company: "Tech Solutions",
-    location: "British Columbia",
-    match: 2
-    },
-    {
-    title: "Website Developer Intern",
-    company: "DataCat",
-    location: "Ontario",
-    match: 1
-    },
-    {
-    title: "Cybersecurity Analyst",
-    company: "SecureTech",
-    location: "Alberta",
-    match: 0
-    }
-    ];
-    
     const resultsDiv = document.getElementById("results");
     resultsDiv.innerHTML = "";
     
@@ -142,17 +101,26 @@ async function searchJobs() {
 
         resultsDiv.hidden = false;
         resultsDiv.innerHTML = "";
+        const selectedLocation = document.getElementById("location").value;
+
         data.data.forEach(job => {
+            const jobLocation = (job.location || "").toLowerCase();
+        
             const companyName = job.company?.name || "Unknown";
             const jobTitle = job.title || "No title";
             const jobUrl = job.url || "#";
             const companyLogo = job.company?.logo?.[0]?.url || "";
-
+            
+            if (
+                selectedLocation !== "Any Location" && !jobLocation.includes(selectedLocation)) {
+                return;
+            }
             resultsDiv.innerHTML += `
                 <div class="job-card">
                     ${companyLogo ? `<img src="${companyLogo}" alt="${companyName} logo" class="logo">` : ""}
                     <p><strong>${companyName}</strong></p>
                     <p>${jobTitle}</p>
+                    <p>${jobLocation}</p>
                     <p><a href="${jobUrl}" target="_blank">Job Listing</a></p>
                 </div>
                 <hr>
