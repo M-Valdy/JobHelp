@@ -84,4 +84,88 @@ if (!found) {
     resultsDiv.removeAttribute("hidden");
     resultsDiv.setAttribute("aria-selected", "true");
     }
-    
+
+
+
+
+
+
+
+
+// so html button calls searchJobs() here, which will call get_jobs() from python, which will call search_jobs() from python
+document.getElementById("searchBtn").addEventListener("click", searchJobs);
+
+async function searchJobs() {
+    const keywordInput = document.getElementById("keywordInput");
+    const resultsDiv = document.getElementById("results");
+
+    if (!keywordInput) {
+        console.error("No element found with id='keywordInput'");
+        return;
+    }
+
+    if (!resultsDiv) {
+        console.error("No element found with id='results'");
+        return;
+    }
+
+    const keyword = keywordInput.value.trim();
+
+    if (!keyword) {
+        resultsDiv.innerHTML = "<p>Please enter a keyword.</p>";
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/jobs?keyword=${encodeURIComponent(keyword)}`); // calls get_jobs() in test.py
+        const data = await response.json();
+
+        console.log("Returned data:", data);
+
+        if (!response.ok) {
+            resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+            return;
+        }
+
+        resultsDiv.innerHTML = "";
+
+        if (!data.data || data.data.length === 0) {
+            resultsDiv.innerHTML = "<p>No jobs found.</p>";
+            return;
+        }
+
+        resultsDiv.hidden = false;
+        resultsDiv.innerHTML = "<p>TEST RESULTS ARE BEING WRITTEN</p>";
+        
+        console.log("resultsDiv found:", resultsDiv);
+        console.log("data.data:", data.data);
+
+        resultsDiv.hidden = false;
+        resultsDiv.innerHTML = "";
+        data.data.forEach(job => {
+            const companyName = job.company?.name || "Unknown";
+            const jobTitle = job.title || "No title";
+            const jobUrl = job.url || "#";
+            const companyLogo = job.company?.logo?.[0]?.url || "";
+
+            resultsDiv.innerHTML += `
+                <div class="job-card">
+                    ${companyLogo ? `<img src="${companyLogo}" alt="${companyName} logo" class="logo">` : ""}
+                    <p><strong>${companyName}</strong></p>
+                    <p>${jobTitle}</p>
+                    <p><a href="${jobUrl}" target="_blank">Job Listing</a></p>
+                </div>
+                <hr>
+            `;
+        });
+    } catch (error) {
+        console.error("Search failed:", error);
+        resultsDiv.innerHTML = "<p>Something went wrong while searching.</p>";
+    }
+}
+
+document.getElementById("keywordInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchJobs();
+    }
+});

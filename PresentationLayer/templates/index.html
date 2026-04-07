@@ -3,15 +3,14 @@
   <head> 
       <title>JobHelp</title>
       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body> 
       <h1>JobHelp</h1>
 
       <div class="form-container">
 
-        <label for="input">Enter jobs that you're interested in!</label>
-        <input type="text" id="input" placeholder="Software Developer, Web Intern" required>
+        <label for="keywordInput">Enter jobs that you're interested in!</label>
+        <input type="text" id="keywordInput" placeholder="Software Developer, Web Intern" required>
 
         <label for="location">Location:</label>
         <select id="location">
@@ -46,13 +45,13 @@
           <input type="checkbox" id="match3" name="match3" value="3">
         </div>
 
-        <button onclick="findJobs()">Find Jobs</button>
+        <button id="searchBtn">Search</button>
 
       </div>
 
     <h3>Results:</h3>
     <div id="results" role="tab" aria-selected="false" hidden>
     </div>
-
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
   </body>
 </html>
