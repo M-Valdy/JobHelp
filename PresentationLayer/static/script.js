@@ -1,112 +1,78 @@
-// so html button calls searchJobs() here, which will call get_jobs() from python, which will call search_jobs() from python
-document.getElementById("searchBtn").addEventListener("click", searchJobs);
+console.log("script loaded");
 
-function matchesLocation(jobLocation, selectedLocation) {
-    const locationMap = {
-        canada: ["canada"],
-        alberta: ["alberta", "ab"],
-        "british columbia": ["british columbia", "bc"],
-        manitoba: ["manitoba", "mb"],
-        "new brunswick": ["new brunswick", "nb"],
-        "newfoundland and labrador": ["newfoundland and labrador", "newfoundland", "labrador", "nl"],
-        "nova scotia": ["nova scotia", "ns"],
-        ontario: ["ontario", "on"],
-        "prince edward island": ["prince edward island", "pei", "pe"],
-        quebec: ["quebec", "qc"],
-        saskatchewan: ["saskatchewan", "sk"],
-        "northwest territories": ["northwest territories", "nt"],
-        nunavut: ["nunavut", "nu"],
-        yukon: ["yukon", "yt"]
-    };
-
-    const terms = locationMap[selectedLocation] || [selectedLocation];
-    return terms.some(term => jobLocation.includes(term));
-}
-
-async function searchJobs() {
+document.addEventListener("DOMContentLoaded", () => {
+    const searchBtn = document.getElementById("searchBtn");
     const keywordInput = document.getElementById("keywordInput");
+    const locationSelect = document.getElementById("location");
     const resultsDiv = document.getElementById("results");
 
-    if (!keywordInput) {
-        console.error("No element found with id='keywordInput'");
+    if (!searchBtn || !keywordInput || !locationSelect || !resultsDiv) {
+        console.error("Missing required HTML elements.");
         return;
     }
 
-    if (!resultsDiv) {
-        console.error("No element found with id='results'");
-        return;
-    }
+    searchBtn.addEventListener("click", searchJobs);
 
-    const keyword = keywordInput.value.trim();
-
-    if (!keyword) {
-        resultsDiv.innerHTML = "<p>Please enter a keyword.</p>";
-        return;
-    }
-
-    try {
-        const geocodeLocation = document.getElementById("location").value;
-
-        const response = await fetch(
-        `/api/jobs?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(geocodeLocation)}`
-        );
-
-        const data = await response.json();
-
-        console.log("Returned data:", data);
-
-        if (!response.ok) {
-            resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
-            return;
+    keywordInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            searchJobs();
         }
+    });
 
-        resultsDiv.innerHTML = "";
+    async function searchJobs() {
+        const keyword = keywordInput.value.trim();
+        const selectedLocation = locationSelect.value;
 
-        if (!data.data || data.data.length === 0) {
-            resultsDiv.innerHTML = "<p>No jobs found.</p>";
+        if (!keyword) {
+            resultsDiv.hidden = false;
+            resultsDiv.innerHTML = "<p>Please enter a keyword.</p>";
             return;
         }
 
         resultsDiv.hidden = false;
-        resultsDiv.innerHTML = "<p>TEST RESULTS ARE BEING WRITTEN</p>";
-        
-        console.log("resultsDiv found:", resultsDiv);
-        console.log("data.data:", data.data);
+        resultsDiv.innerHTML = "<p>Searching...</p>";
 
-        resultsDiv.hidden = false;
-        resultsDiv.innerHTML = "";
-        const selectedLocation = document.getElementById("location").value.toLowerCase();
+        try {
+            const response = await fetch(
+                `/api/jobs?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(selectedLocation)}`
+            );
 
-        data.data.forEach(job => {
-            const jobLocation = (job.location || "").toLowerCase();
-        
-            const companyName = job.company?.name || "Unknown";
-            const jobTitle = job.title || "No title";
-            const jobUrl = job.url || "#";
-            const companyLogo = job.company?.logo?.[0]?.url || "";
-            
-            if (selectedLocation !== "canada" && !matchesLocation(jobLocation, selectedLocation)) {
+            const data = await response.json();
+            console.log("Returned data:", data);
+
+            if (!response.ok) {
+                resultsDiv.innerHTML = `<p>Error: ${data.error || "Unknown error"}</p>`;
                 return;
             }
-            resultsDiv.innerHTML += `
-                <div class="job-card">
-                    ${companyLogo ? `<img src="${companyLogo}" alt="${companyName} logo" class="logo">` : ""}
-                    <p><strong>${companyName}</strong></p>
-                    <p>${jobTitle}</p>
-                    <p>${jobLocation}</p>
-                    <p><a href="${jobUrl}" target="_blank">Job Listing</a></p>
-                </div>
-                <hr>
-            `;
-        });
-    } catch (error) {
-        console.error("Search failed:", error);
-        resultsDiv.innerHTML = "<p>Something went wrong while searching.</p>";
-    }
-}
 
-document.getElementById("keywordInput").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        searchJobs();
+            if (!data.data || data.data.length === 0) {
+                resultsDiv.innerHTML = "<p>No jobs found.</p>";
+                return;
+            }
+
+            resultsDiv.innerHTML = "";
+
+            data.data.forEach(job => {
+                const companyName = job.company?.name || "Unknown";
+                const jobTitle = job.title || "No title";
+                const jobUrl = job.url || "#";
+                const jobLocation = job.location || "No location listed";
+                const companyLogo = job.company?.logo?.[0]?.url || "";
+
+                resultsDiv.innerHTML += `
+                    <div class="job-card">
+                        ${companyLogo ? `<img src="${companyLogo}" alt="${companyName} logo" class="logo">` : ""}
+                        <p><strong>${companyName}</strong></p>
+                        <p>${jobTitle}</p>
+                        <p>${jobLocation}</p>
+                        <p><a href="${jobUrl}" target="_blank">Job Listing</a></p>
+                    </div>
+                    <hr>
+                `;
+            });
+        } catch (error) {
+            console.error("Search failed:", error);
+            resultsDiv.innerHTML = "<p>Something went wrong while searching.</p>";
+        }
     }
 });
