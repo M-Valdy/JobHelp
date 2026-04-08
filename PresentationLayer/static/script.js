@@ -42,12 +42,7 @@ if (!found) {
     // Show the results div
     resultsDiv.removeAttribute("hidden");
     resultsDiv.setAttribute("aria-selected", "true");
-    }
-
-
-
-
-
+}
 
 
 

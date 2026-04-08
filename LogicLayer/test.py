@@ -20,7 +20,7 @@ SEARCH_URL = f"https://{RAPIDAPI_HOST}/api/v1/job/search"
 JOB_DETAIL_URL = f"https://{RAPIDAPI_HOST}/api/v1/job/detail"
 
 
-def search_jobs(keyword):
+def search_jobs(keyword, location="None", **kwargs):
     # Default parameters
     params = {
         "keyword": keyword,
@@ -28,9 +28,14 @@ def search_jobs(keyword):
         "sort_by": "recent"
     }
 
+    if location.lower() != "any location":
+        params["location"] = location
+
+    params.update(kwargs)
+
     headers = { "X-RapidAPI-Key": RAPIDAPI_KEY, "X-RapidAPI-Host": RAPIDAPI_HOST }
 
-    response = requests.get(SEARCH_URL, headers=headers, params=params)
+    response = requests.get(SEARCH_URL, headers=headers, params=params, timeout=10)
 
     if response.status_code == 200:
         return response.json()
@@ -60,12 +65,16 @@ def get_job_details(job_id):
 @app.route("/api/jobs", methods=["GET"])
 def get_jobs():
     keyword = request.args.get("keyword", "").strip()
+    location = request.args.get("location", "").strip()
 
     if not keyword:
         return jsonify({"error": "Keyword is required"}), 400
+    
+    if location == "Any Location".lower():
+        location = ""
 
     try:
-        results = search_jobs(keyword)
+        results = search_jobs(keyword, location)
         return jsonify(results)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
