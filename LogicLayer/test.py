@@ -19,8 +19,25 @@ RAPIDAPI_HOST = "fresh-linkedin-scraper-api.p.rapidapi.com"
 SEARCH_URL = f"https://{RAPIDAPI_HOST}/api/v1/job/search"
 JOB_DETAIL_URL = f"https://{RAPIDAPI_HOST}/api/v1/job/detail"
 
+geo_codes = {
+        "Canada": "101174742",
+        "Alberta": "103564821",
+        "British Columbia": "102044150",
+        "Manitoba": "104423466",
+        "New Brunswick": "103790618",
+        "Newfoundland and Labrador": "106199678",
+        "Nova Scotia": "104823201",
+        "Ontario": "105149290",
+        "Prince Edward Island": "104663945",
+        "Quebec": "102237789",
+        "Saskatchewan": "104002611",
+        "Northwest Territories": "105901604",
+        "Nunavut": "106045149",
+        "Yukon": "103208794"
+    }
 
-def search_jobs(keyword, location="None", **kwargs):
+
+def search_jobs(keyword, location="", **kwargs):
     # Default parameters
     params = {
         "keyword": keyword,
@@ -28,8 +45,11 @@ def search_jobs(keyword, location="None", **kwargs):
         "sort_by": "recent"
     }
 
-    if location.lower() != "any location":
-        params["location"] = location
+    geocode = geo_codes.get(location)
+
+    if geocode:
+        params["geocode"] = geocode
+
 
     params.update(kwargs)
 
@@ -69,9 +89,6 @@ def get_jobs():
 
     if not keyword:
         return jsonify({"error": "Keyword is required"}), 400
-    
-    if location == "Any Location".lower():
-        location = ""
 
     try:
         results = search_jobs(keyword, location)

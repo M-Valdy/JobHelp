@@ -1,53 +1,27 @@
-    const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = "";
-    
-    let found = false;
-    
-    jobs.forEach(job => {
-
-    // match location + flexible skill match
-    const titleLower = job.title.toLowerCase();
-    const skillWords = skill.split(' ').filter(word => word.trim() !== '');
-    const skillMatch = skill === "" || skillWords.every(word => titleLower.includes(word));
-    
-    // Get selected match levels from checkboxes
-    let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    let selectedMatchLevels = [];
-    checkboxes.forEach((checkbox) => {
-        selectedMatchLevels.push(parseInt(checkbox.value));
-    });
-    
-    // Check if job matches the selected criteria
-    let matchLevelFilter = selectedMatchLevels.length === 0 || selectedMatchLevels.includes(job.match);
-    
-    if ((job.location === location || location === "Any Location") && skillMatch && matchLevelFilter) {
-    found = true;
-    
-    resultsDiv.innerHTML += `
-    <div>
-    <h4>${job.title}</h4>
-    <p>Company: ${job.company}</p>
-    <p>Location: ${job.location}</p>
-    <p>Match Score: ${job.match}</p>
-    </div>
-    `;
-    }
-    });
-    
-    // If no jobs found
-if (!found) {
-    resultsDiv.innerHTML = "<p>No jobs found.</p>";
-    }
-    
-    // Show the results div
-    resultsDiv.removeAttribute("hidden");
-    resultsDiv.setAttribute("aria-selected", "true");
-}
-
-
-
 // so html button calls searchJobs() here, which will call get_jobs() from python, which will call search_jobs() from python
 document.getElementById("searchBtn").addEventListener("click", searchJobs);
+
+function matchesLocation(jobLocation, selectedLocation) {
+    const locationMap = {
+        canada: ["canada"],
+        alberta: ["alberta", "ab"],
+        "british columbia": ["british columbia", "bc"],
+        manitoba: ["manitoba", "mb"],
+        "new brunswick": ["new brunswick", "nb"],
+        "newfoundland and labrador": ["newfoundland and labrador", "newfoundland", "labrador", "nl"],
+        "nova scotia": ["nova scotia", "ns"],
+        ontario: ["ontario", "on"],
+        "prince edward island": ["prince edward island", "pei", "pe"],
+        quebec: ["quebec", "qc"],
+        saskatchewan: ["saskatchewan", "sk"],
+        "northwest territories": ["northwest territories", "nt"],
+        nunavut: ["nunavut", "nu"],
+        yukon: ["yukon", "yt"]
+    };
+
+    const terms = locationMap[selectedLocation] || [selectedLocation];
+    return terms.some(term => jobLocation.includes(term));
+}
 
 async function searchJobs() {
     const keywordInput = document.getElementById("keywordInput");
@@ -71,7 +45,12 @@ async function searchJobs() {
     }
 
     try {
-        const response = await fetch(`/api/jobs?keyword=${encodeURIComponent(keyword)}`); // calls get_jobs() in test.py
+        const geocodeLocation = document.getElementById("location").value;
+
+        const response = await fetch(
+        `/api/jobs?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(geocodeLocation)}`
+        );
+
         const data = await response.json();
 
         console.log("Returned data:", data);
@@ -96,7 +75,7 @@ async function searchJobs() {
 
         resultsDiv.hidden = false;
         resultsDiv.innerHTML = "";
-        const selectedLocation = document.getElementById("location").value;
+        const selectedLocation = document.getElementById("location").value.toLowerCase();
 
         data.data.forEach(job => {
             const jobLocation = (job.location || "").toLowerCase();
@@ -106,8 +85,7 @@ async function searchJobs() {
             const jobUrl = job.url || "#";
             const companyLogo = job.company?.logo?.[0]?.url || "";
             
-            if (
-                selectedLocation !== "Any Location" && !jobLocation.includes(selectedLocation)) {
+            if (selectedLocation !== "canada" && !matchesLocation(jobLocation, selectedLocation)) {
                 return;
             }
             resultsDiv.innerHTML += `
