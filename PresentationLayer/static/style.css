@@ -305,3 +305,17 @@ h3 {
     background: #aaa;
     cursor: not-allowed;
 }
+
+.filter-section {
+    margin-top: 15px;
+}
+
+.page-option {
+    margin-right: 10px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.page-option input {
+    margin-right: 5px;
+}

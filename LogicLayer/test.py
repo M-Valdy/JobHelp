@@ -37,11 +37,11 @@ geo_codes = {
     }
 
 
-def search_jobs(keyword, location="", **kwargs):
+def search_jobs(keyword, location="", page=1,  **kwargs):
     # Default parameters
     params = {
         "keyword": keyword,
-        "page": 1,
+        "page": page,
         "sort_by": "recent"
     }
 
@@ -86,12 +86,13 @@ def get_job_details(job_id):
 def get_jobs():
     keyword = request.args.get("keyword", "").strip()
     location = request.args.get("location", "").strip()
+    page = request.args.get("page", 1, type=int)
 
     if not keyword:
         return jsonify({"error": "Keyword is required"}), 400
 
     try:
-        results = search_jobs(keyword, location)
+        results = search_jobs(keyword, location=location, page=page)
         return jsonify(results)
     except Exception as e:
         return jsonify({"error": str(e)}), 500

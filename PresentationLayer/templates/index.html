@@ -32,22 +32,35 @@
 
         <hr>
 
-        <h2>Optional Filters:</h2>
-        <h3>Filter by match level (0-3):</h3>
-        <div class="checkbox-group">
-          <label for="match0" name="match0">0</label>
-          <input type="checkbox" id="match0" name="match0" value="0">
-          <label for="match1" name="match1">1</label>
-          <input type="checkbox" id="match1" name="match1" value="1">
-          <label for="match2" name="match2">2</label>
-          <input type="checkbox" id="match2" name="match2" value="2">
-          <label for="match3" name="match3">3</label>
-          <input type="checkbox" id="match3" name="match3" value="3">
+        <h2>Additional Filters:</h2>
+        <h3>How many pages of results to load:</h3>
+        <div class="filter-section">
+          <p>Results depth (pages to preload):</p>
+
+          <label class="page-option">
+            <input type="checkbox" name="pageCount" value="1"> 1
+          </label>
+
+          <label class="page-option">
+            <input type="checkbox" name="pageCount" value="2"> 2
+          </label>
+
+          <label class="page-option">
+            <input type="checkbox" name="pageCount" value="3"> 3
+          </label>
+
+          <label class="page-option">
+            <input type="checkbox" name="pageCount" value="4"> 4
+          </label>
+
+          <label class="page-option">
+            <input type="checkbox" name="pageCount" value="5"> 5
+          </label>
         </div>
 
         <button id="searchBtn">Search</button>
 
-        <label for="sortOption">Sort by:</label>
+        <label for="sortOption">Sort preloaded pages by:</label>
         <select id="sortOption">
             <option value="relevance">Relevance</option>
             <option value="newest">Newest</option>
@@ -62,6 +75,9 @@
     <h3>Results:</h3>
     <div id="results" role="tab" aria-selected="false" hidden>
     </div>
+
+    <button id="loadMoreBtn" hidden>Load More</button>
+
     <script src="../static/script.js"></script>
   </body>
 </html>
