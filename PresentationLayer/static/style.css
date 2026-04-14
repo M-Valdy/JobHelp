@@ -42,8 +42,8 @@ hr {
 }
 
 .form-container h2 {
-    margin-top: 20px;
-    margin-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 10px;
     color: #333;
     text-align: center;
     font-weight: bold;
@@ -183,6 +183,10 @@ h3 {
     margin-top: 20px;
 }
 
+h3:first-of-type {
+    margin-bottom: 0;
+}
+
 
 #results[role="tab"] {
     background: #fff;
@@ -249,9 +253,16 @@ h3 {
     background: #f8f8f8;
     border-radius: 12px;
     padding: 16px;
+    margin-top: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 20px;
+}
+
+.favorites-panel:hover {
+    box-shadow: gold 0px 0px 10px;
+    transform: translateY(-5px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .favorite-job,
@@ -261,6 +272,10 @@ h3 {
     padding: 12px;
     margin-bottom: 12px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+}
+
+#sortOptionLabel{
+    margin-top: 20px;
 }
 
 .favorite-job h4,
@@ -288,6 +303,7 @@ h3 {
     color: white;
 }
 
+
 .remove-btn {
     background: #c96b6b;
     color: white;
@@ -304,10 +320,6 @@ h3 {
 .save-btn:disabled {
     background: #aaa;
     cursor: not-allowed;
-}
-
-.filter-section {
-    margin-top: 15px;
 }
 
 .page-option {

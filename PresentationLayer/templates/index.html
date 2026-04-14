@@ -34,8 +34,8 @@
 
         <h2>Additional Filters:</h2>
         <h3>How many pages of results to load:</h3>
-        <div class="filter-section">
-          <p>Results depth (pages to preload):</p>
+      
+        <div class="checkbox-group">
 
           <label class="page-option">
             <input type="checkbox" name="pageCount" value="1"> 1
@@ -58,18 +58,21 @@
           </label>
         </div>
 
-        <button id="searchBtn">Search</button>
-
-        <label for="sortOption">Sort preloaded pages by:</label>
+        <label for="sortOption" id="sortOptionLabel">Sort preloaded pages by:</label>
         <select id="sortOption">
             <option value="relevance">Relevance</option>
             <option value="newest">Newest</option>
         </select>
 
+        <button id="searchBtn">Search</button>
+
+        <hr>
+
         <aside class="favorites-panel">
           <h2>Favorites</h2>
           <div id="favoritesList"></div>
         </aside>
+
       </div>
 
     <h3>Results:</h3>
